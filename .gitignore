@@ -35,3 +35,19 @@ muse-ai-backend/.env
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# 2. Python Virtual Environments
+# (You don't want to upload 100MB of installed packages to GitHub)
+venv/
+.venv/
+env/
+muse-ai-backend/venv/
+muse-ai-backend/.venv/
+
+# 3. Byte-compiled / Optimized / Cache files
+# (Python generates these automatically, they just clutter your repo)
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+muse-ai-backend/__pycache__/
