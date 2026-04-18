@@ -65,7 +65,7 @@ export function Navbar({ onOpenAuth, onOpenCart }: NavbarProps) {
           aria-label="ClosetShare home"
         >
           <Image
-            src="/LogoLandscapeNoBG.png"
+            src="/LogoLandScapeNoBG.png"
             alt="ClosetShare logo"
             width={120}
             height={40}
