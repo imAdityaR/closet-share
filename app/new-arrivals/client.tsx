@@ -35,6 +35,7 @@ export function CatalogClient({ products }: { products: any[] }) {
   // 2. FILTER PRODUCTS BASED ON URL PARAMS
   const filteredProducts = useMemo(() => {
     return products.filter((p) => {
+      if (!p) return false;
       const genderOk = activeFilters.gender.length === 0 || activeFilters.gender.includes(p.gender)
       // Note: checking p.category OR p.masterCategory just in case your DB mapped it differently
       const categoryOk = activeFilters.masterCategory.length === 0 || activeFilters.masterCategory.includes(p.category || p.masterCategory)
