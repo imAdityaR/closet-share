@@ -194,4 +194,4 @@ ClosetShare/
 - [ ] Real-time WebSockets for Order Status Updates
 - [ ] Collaborative Filtering ML for deeper user recommendations
 - [ ] Virtual Try-On AR integration
-```
+
