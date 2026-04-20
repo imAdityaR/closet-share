@@ -6,7 +6,6 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Sparkles, Wand2, Save, RefreshCcw, ArrowRight, Loader2 } from "lucide-react";
 import { createMuseOutfit, saveOutfitToProfile } from "@/lib/actions";
-import { useToast } from "@/lib/toast-context";
 export default function MuseAIOutfitMaker() {
   const router = useRouter();
   const [prompt, setPrompt] = useState("");
@@ -18,7 +17,6 @@ export default function MuseAIOutfitMaker() {
   const handleGenerate = async () => {
     if (!prompt.trim()) return;
     setStatus("loading");
-    const { showToast } = useToast();
     
     try {
       const result = await createMuseOutfit(prompt, gender); 
@@ -27,28 +25,23 @@ export default function MuseAIOutfitMaker() {
         setVibeText(result.vibe);
         setOutfitItems(result.outfit);
         setStatus("success");
-        showToast("Outfit generated! You can save it to your profile.", "success");
       } else {
         setStatus("idle");
-        showToast("MuseAI couldn't generate an outfit. Try again", "error");
 
       }
     } catch (e) {
       console.error("Client side error:", e);
       setStatus("idle");
-      showToast("Something went wrong connecting to MuseAI.", "error");
     }
   };
 
   const handleSave = async () => {
     const ids = outfitItems.map(item => item.id);
     const saveResult = await saveOutfitToProfile(`MuseAI: ${prompt.substring(0, 20)}...`, vibeText, gender, ids);
-    const { showToast } = useToast();
     if (saveResult.success) {
       setStatus("saved");
-      showToast("Outfit saved to your profile!", "success");
     } else {
-      showToast("Failed to save to your closet.", "error");
+      console.error("Failed to save to your closet.");
     }
   };
 

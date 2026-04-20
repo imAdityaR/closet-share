@@ -18,7 +18,8 @@ export default async function YouMayAlsoLike({ currentProduct }: YouMayAlsoLikeP
     const stylingPrompt = `Complementary styling pieces, accessories, and bottoms to pair with a ${currentProduct.gender} ${currentProduct.mastercategory} styled as ${currentProduct.productDisplay}`;
 
     // 2. Ping your local Python AI Server
-    const response = await fetch('http://127.0.0.1:8000/api/recommend', {
+    const pythonUrl= process.env.NEXT_PUBLIC_PYTHON_API_URL || 'http://127.0.0.1:8000';
+    const response = await fetch(`${pythonUrl}/api/recommend`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
