@@ -31,7 +31,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           aria-label="ClosetShare home"
         >
           <Image
-            src="/LogoLandscapeNoBG.png"
+            src="/LogoLandScapeNoBG.png"
             alt="ClosetShare logo"
             width={120}
             height={40}
