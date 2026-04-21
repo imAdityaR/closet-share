@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { ChevronLeft, Sparkles } from "lucide-react";
 import MuseAIOutfitMaker from "@/components/MuseAIOutfitMaker";
-import { currentUser } from "@clerk/nextjs/server";
+import { auth,currentUser } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import { sql } from "@/lib/db";
 import MuseOutfitsDisplay from "./MuseOutfitsDisplay";
@@ -17,7 +17,8 @@ export default async function MuseStudioPage() {
   const user = await currentUser();
 
   if (!user) {
-    redirect("/sign-in");
+    const { redirectToSignIn } = await auth(); 
+    return redirectToSignIn(); 
   }
 
   // Fetch the saved outfits

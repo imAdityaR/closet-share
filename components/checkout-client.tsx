@@ -8,7 +8,6 @@ import { useCart } from "@/lib/cart-context"
 import { AddressFormModal } from "@/components/address-form-modal"
 import { createOrder } from "@/lib/actions"
 import { cn } from "@/lib/utils"
-import { useToast } from "@/lib/toast-context"
 export function CheckoutClient({ addresses }: { addresses: any[] }) {
   const router = useRouter()
   const { items, clearCart } = useCart()
@@ -47,7 +46,6 @@ export function CheckoutClient({ addresses }: { addresses: any[] }) {
 
     const finalStartDate = deliveryType === "Now" ? new Date() : new Date(startDate)
     const finalEndDate = new Date(finalStartDate)
-    const { showToast } = useToast();
     finalEndDate.setDate(finalStartDate.getDate() + maxRentalDays)
 
     const orderData = {
@@ -63,10 +61,9 @@ export function CheckoutClient({ addresses }: { addresses: any[] }) {
       const res = await createOrder(orderData)
       if (res.success) {
         clearCart()
-        showToast("Order placed successfully!", "success")
         router.push('/profile') // Send them to dashboard to see their active order!
       } else {
-        showToast("Checkout failed: " + res.error, "error")
+        console.error("Checkout failed:", res.error)
       }
     })
   }
