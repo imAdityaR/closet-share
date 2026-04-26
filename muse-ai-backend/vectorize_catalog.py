@@ -15,9 +15,10 @@ conn = psycopg2.connect(os.getenv("DATABASE_URL"))
 cur = conn.cursor()
 
 # Only fetch products that do not have an embedding yet
+# UPDATED: Added 'description' and changed table to 'products_dummy'
 cur.execute("""
-    SELECT id, productDisplay, gender, mastercategory, subcategory, articletype, basecolour, season, usage 
-    FROM products
+    SELECT id, productDisplay, gender, mastercategory, subcategory, articletype, basecolour, season, usage, description 
+    FROM products_dummy
     WHERE text_embedding IS NULL;
 """)
 products = cur.fetchall()
@@ -38,6 +39,7 @@ for i in range(0, total_left, batch_size):
     ids = []
     for row in batch:
         ids.append(row[0])
+        # This automatically grabs 'description' now since we added it to the SELECT
         attributes = [str(item) for item in row[1:] if item is not None and str(item).strip() != ""]
         texts.append(" ".join(attributes))
     
@@ -56,9 +58,10 @@ for i in range(0, total_left, batch_size):
             )
             
             # Save back to database
+            # UPDATED: Changed table to 'products_dummy'
             for j, embedding_obj in enumerate(response.embeddings):
                 cur.execute(
-                    "UPDATE products SET text_embedding = %s WHERE id = %s",
+                    "UPDATE products_dummy SET text_embedding = %s WHERE id = %s",
                     (embedding_obj.values, ids[j])
                 )
             
@@ -78,4 +81,4 @@ for i in range(0, total_left, batch_size):
 
 cur.close()
 conn.close()
-print("Complete! Your catalog is now successfully powered by Gemini.")
+print("Complete! Your dummy catalog is now successfully powered by Gemini.")
